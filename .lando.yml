@@ -4,22 +4,14 @@ config:
   webroot: web
 
 services:
-  appserver:
+  database:
     build_as_root:
       - apt update
-      - apt -y --no-install-recommends install collectd libmnl0
-    config:
-      vhosts: config/example/apache2/default.conf
-    run_as_root:
-      - collectd
+      - apt -y --no-install-recommends install collectd libmariadb-dev libmnl0
     overrides:
       volumes:
-        - ./config/example/apache2/status.conf:/etc/apache2/conf-enabled/status.conf
         - ./config/example/collectd/collectd.conf.d/common.conf:/etc/collectd/collectd.conf.d/10-common.conf
-        - ./config/example/collectd/collectd.conf.d/appserver.conf:/etc/collectd/collectd.conf.d/20-appserver.conf
-        - apache_logs_data:/var/log/apache2
-    depends_on:
-      - database
+        - ./config/example/collectd/collectd.conf.d/database.conf:/etc/collectd/collectd.conf.d/20-database.conf
 
 volumes:
   apache_logs_data: {}
