@@ -21,5 +21,22 @@ services:
     depends_on:
       - database
 
+  alloy:
+    type: lando
+    api: 3
+    services:
+      image: grafana/alloy:latest
+      command: /bin/alloy run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data --stability.level=experimental /etc/alloy
+      ports:
+        - '12345'
+        - '4317'
+        - '4318'
+        - '9411'
+        - '14268'
+    overrides:
+      volumes:
+        # Make appserver logs available to Alloy.
+        - apache_logs_data:/var/log/apache2
+
 volumes:
   apache_logs_data: {}
