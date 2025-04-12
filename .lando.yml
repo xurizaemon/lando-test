@@ -8,8 +8,10 @@ services:
     build_as_root:
       - apt update
       - apt -y --no-install-recommends install collectd libmariadb-dev libmnl0
-    run_as_root:
-      - collectd
+    overrides:
+      volumes:
+        - ./config/example/collectd/collectd.conf.d/common.conf:/etc/collectd/collectd.conf.d/10-common.conf
+        - ./config/example/collectd/collectd.conf.d/database.conf:/etc/collectd/collectd.conf.d/20-database.conf
 
 volumes:
   apache_logs_data: {}
