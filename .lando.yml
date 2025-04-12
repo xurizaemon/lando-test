@@ -10,8 +10,8 @@ services:
       - apt -y --no-install-recommends install collectd libmnl0
     config:
       vhosts: config/example/apache2/default.conf
-    run_as_root:
-      - collectd
+    # run_as_root:
+    #   - collectd
     overrides:
       volumes:
         - ./config/example/apache2/status.conf:/etc/apache2/conf-enabled/status.conf
